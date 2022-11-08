@@ -63,6 +63,7 @@ import (
 	_ "github.com/aquasecurity/defsec/internal/rules/google/sql"
 	_ "github.com/aquasecurity/defsec/internal/rules/google/storage"
 	_ "github.com/aquasecurity/defsec/internal/rules/kubernetes/network"
+	_ "github.com/aquasecurity/defsec/internal/rules/nifcloud/computing"
 	_ "github.com/aquasecurity/defsec/internal/rules/openstack/compute"
 	_ "github.com/aquasecurity/defsec/internal/rules/openstack/networking"
 	_ "github.com/aquasecurity/defsec/internal/rules/oracle/compute"

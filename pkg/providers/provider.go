@@ -22,6 +22,7 @@ const (
 	KubernetesProvider   Provider = "kubernetes"
 	OracleProvider       Provider = "oracle"
 	OpenStackProvider    Provider = "openstack"
+	NIFCLOUDProvider     Provider = "nifcloud"
 	CloudStackProvider   Provider = "cloudstack"
 )
 
@@ -39,6 +40,8 @@ func (p Provider) DisplayName() string {
 		return "GitHub"
 	case "openstack":
 		return "OpenStack"
+	case "nifcloud":
+		return strings.ToUpper(string(p))
 	case "cloudstack":
 		return "Cloudstack"
 	default:
