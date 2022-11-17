@@ -7,6 +7,7 @@ import (
 )
 
 type Options struct {
+	Provider            string
 	ProgressTracker     progress.Tracker
 	Region              string
 	Endpoint            string

@@ -1,4 +1,4 @@
-package aws
+package nifcloud
 
 import (
 	"context"
@@ -11,6 +11,7 @@ import (
 	"sync"
 
 	adapter "github.com/aquasecurity/defsec/internal/adapters/cloud"
+	"github.com/aquasecurity/defsec/internal/adapters/cloud/nifcloud"
 	cloudoptions "github.com/aquasecurity/defsec/internal/adapters/cloud/options"
 	"github.com/aquasecurity/defsec/pkg/errs"
 
@@ -19,7 +20,6 @@ import (
 	"github.com/aquasecurity/defsec/pkg/rego"
 	"github.com/aquasecurity/defsec/pkg/types"
 
-	"github.com/aquasecurity/defsec/internal/adapters/cloud/aws"
 	"github.com/aquasecurity/defsec/internal/rules"
 	"github.com/aquasecurity/defsec/pkg/concurrency"
 	"github.com/aquasecurity/defsec/pkg/debug"
@@ -30,7 +30,7 @@ import (
 	"github.com/aquasecurity/defsec/pkg/scanners/options"
 )
 
-var _ ConfigurableAWSScanner = (*Scanner)(nil)
+var _ ConfigurableNIFCLOUDScanner = (*Scanner)(nil)
 
 type Scanner struct {
 	sync.Mutex
@@ -39,7 +39,6 @@ type Scanner struct {
 	options             []options.ScannerOption
 	progressTracker     progress.Tracker
 	region              string
-	endpoint            string
 	services            []string
 	frameworks          []framework.Framework
 	concurrencyStrategy concurrency.Strategy
@@ -57,11 +56,11 @@ func (s *Scanner) SetFrameworks(frameworks []framework.Framework) {
 }
 
 func (s *Scanner) Name() string {
-	return "AWS API"
+	return "NIFCLOUD API"
 }
 
 func (s *Scanner) SetDebugWriter(writer io.Writer) {
-	s.debug = debug.New(writer, "aws-api", "scanner")
+	s.debug = debug.New(writer, "nifcloud-api", "scanner")
 }
 
 func (s *Scanner) SetProgressTracker(t progress.Tracker) {
@@ -91,18 +90,14 @@ func (s *Scanner) SetPolicyNamespaces(s2 ...string)  {}
 func (s *Scanner) SetSkipRequiredCheck(b bool)       {}
 
 func AllSupportedServices() []string {
-	return aws.AllServices()
+	return nifcloud.AllServices()
 }
 
-func (s *Scanner) SetAWSRegion(region string) {
+func (s *Scanner) SetNIFCLOUDRegion(region string) {
 	s.region = region
 }
 
-func (s *Scanner) SetAWSEndpoint(endpoint string) {
-	s.endpoint = endpoint
-}
-
-func (s *Scanner) SetAWSServices(services []string) {
+func (s *Scanner) SetNIFCLOUDServices(services []string) {
 	s.services = services
 }
 
@@ -125,10 +120,9 @@ func New(opts ...options.ScannerOption) *Scanner {
 
 func (s *Scanner) CreateState(ctx context.Context) (*state.State, error) {
 	cloudState, err := adapter.Adapt(ctx, cloudoptions.Options{
-		Provider:            "aws",
+		Provider:            "nifcloud",
 		ProgressTracker:     s.progressTracker,
 		Region:              s.region,
-		Endpoint:            s.endpoint,
 		Services:            s.services,
 		DebugWriter:         s.debug,
 		ConcurrencyStrategy: s.concurrencyStrategy,

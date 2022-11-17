@@ -77,6 +77,7 @@ require (
 
 require (
 	github.com/aws/smithy-go v1.13.3
+	github.com/nifcloud/nifcloud-sdk-go v1.18.0
 	k8s.io/utils v0.0.0-20220728103510-ee6ede2d64ed
 )
 
