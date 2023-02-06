@@ -142,7 +142,7 @@ func (s *Scanner) CreateState(ctx context.Context) (*state.State, error) {
 		Services:            s.services,
 		DebugWriter:         s.debug,
 		ConcurrencyStrategy: s.concurrencyStrategy,
-	})
+	}, aws.Adapt)
 	if err != nil {
 		var adaptionError errs.AdapterError
 		if errors.As(err, &adaptionError) {
