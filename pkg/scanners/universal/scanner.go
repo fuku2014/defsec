@@ -6,6 +6,7 @@ import (
 
 	"github.com/aquasecurity/defsec/pkg/scanners/azure/arm"
 	"github.com/aquasecurity/defsec/pkg/scanners/cloud/aws"
+	"github.com/aquasecurity/defsec/pkg/scanners/cloud/nifcloud"
 	"github.com/aquasecurity/defsec/pkg/scanners/helm"
 	"github.com/aquasecurity/defsec/pkg/scanners/options"
 	"github.com/aquasecurity/defsec/pkg/state"
@@ -55,6 +56,7 @@ func New(opts ...options.ScannerOption) *Scanner {
 		},
 		apiScanners: []nestableAPIScanners{
 			aws.New(opts...),
+			nifcloud.New(opts...),
 		},
 	}
 	return s
